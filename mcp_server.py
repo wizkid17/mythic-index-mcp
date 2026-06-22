@@ -11,7 +11,7 @@ import os, re, json, httpx
 from mcp.server.fastmcp import FastMCP
 
 API_URL = os.environ.get("MYTHIC_INDEX_API_URL", "https://api.mythic-index.com")
-API_KEY = os.environ.get("MYTHIC_INDEX_API_KEY", "mi_zsNOhvW8BERAnzjIklnPkHJ3klPdXCEZT6oB4WUGCR1mbA_btPl8AKWGrbsOcfS3")
+API_KEY = os.environ.get("MYTHIC_INDEX_API_KEY", "mi_ze5qEbb5NRrJqbFfe3pojSp-0kcpJo5zvL9T8KTQs3IS2gYUMQdZtfGtKos7s7T3")
 
 mcp = FastMCP("Mythic Index", instructions="MTG card prices, deck analysis, and investment intelligence. 19 tools, 99K cards, 5 vendors.")
 
