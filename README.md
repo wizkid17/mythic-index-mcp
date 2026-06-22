@@ -28,7 +28,7 @@ Connect this MCP server to Claude Desktop, Claude Code, or any MCP-compatible AI
 
 ### Prerequisites
 
-- Python 3.9+
+- Python 3.10+ (the MCP SDK requires 3.10 or newer)
 - Claude Desktop, Claude Code, or any MCP-compatible client
 
 ### Install
