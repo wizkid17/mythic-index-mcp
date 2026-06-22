@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mythic-index-mcp"
+version = "0.1.0"
+description = "MCP server for Magic: The Gathering card prices, deck analysis, and investment intelligence — 19 tools over the Mythic Index API."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Renzo Salazar", email = "renzo@saravia.io" }]
+keywords = [
+    "mcp",
+    "model-context-protocol",
+    "mtg",
+    "magic-the-gathering",
+    "tcg",
+    "card-prices",
+    "deck-building",
+    "llm",
+    "claude",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Games/Entertainment",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "httpx>=0.27.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/wizkid17/mythic-index-mcp"
+Repository = "https://github.com/wizkid17/mythic-index-mcp"
+"API Documentation" = "https://api.mythic-index.com/mtg-api/docs"
+
+[project.scripts]
+mythic-index-mcp = "mcp_server:main"
+
+[tool.setuptools]
+py-modules = ["mcp_server"]

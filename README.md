@@ -1,5 +1,7 @@
 # Mythic Index MCP Server
 
+<!-- mcp-name: io.github.wizkid17/mythic-index-mcp -->
+
 Magic: The Gathering card prices, deck analysis, and investment intelligence — powered by live data from 5 vendors covering 99K+ cards.
 
 Connect this MCP server to Claude Desktop, Claude Code, or any MCP-compatible AI assistant to get real-time MTG card pricing, deck cost analysis, sealed product EV calculations, and investment insights.
@@ -33,6 +35,14 @@ Connect this MCP server to Claude Desktop, Claude Code, or any MCP-compatible AI
 
 ### Install
 
+The published package runs with no manual install via [`uv`](https://docs.astral.sh/uv/):
+
+```bash
+uvx mythic-index-mcp
+```
+
+Or install from source:
+
 ```bash
 git clone https://github.com/wizkid17/mythic-index-mcp.git
 cd mythic-index-mcp
@@ -50,8 +60,8 @@ Edit your Claude Desktop config file:
 {
   "mcpServers": {
     "mythic-index": {
-      "command": "python3",
-      "args": ["/full/path/to/mythic-index-mcp/mcp_server.py"]
+      "command": "uvx",
+      "args": ["mythic-index-mcp"]
     }
   }
 }
@@ -62,7 +72,7 @@ Restart Claude Desktop. The Mythic Index tools will appear in the tools menu (ha
 ### Configure Claude Code
 
 ```bash
-claude mcp add mythic-index python3 /full/path/to/mythic-index-mcp/mcp_server.py
+claude mcp add mythic-index uvx mythic-index-mcp
 ```
 
 ### Use Your Own API Key (optional)
@@ -73,8 +83,8 @@ The server includes a public read-only key with rate limiting. For higher rate l
 {
   "mcpServers": {
     "mythic-index": {
-      "command": "python3",
-      "args": ["/full/path/to/mythic-index-mcp/mcp_server.py"],
+      "command": "uvx",
+      "args": ["mythic-index-mcp"],
       "env": {
         "MYTHIC_INDEX_API_KEY": "mi_your_key_here"
       }

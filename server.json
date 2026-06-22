@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.wizkid17/mythic-index-mcp",
+  "title": "Mythic Index",
+  "description": "MTG card prices, deck analysis, and investment intelligence — 19 tools over the Mythic Index API.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/wizkid17/mythic-index-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "mythic-index-mcp",
+      "version": "0.1.0",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "MYTHIC_INDEX_API_KEY",
+          "description": "API key for the Mythic Index API. Defaults to the bundled public read-only key.",
+          "isRequired": false,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "MYTHIC_INDEX_API_URL",
+          "description": "Base URL of the Mythic Index API. Defaults to https://api.mythic-index.com.",
+          "isRequired": false,
+          "format": "string"
+        }
+      ]
+    }
+  ]
+}

@@ -367,7 +367,7 @@ def api_guide() -> str:
     """API reference."""
     return "Mythic Index API: 21 endpoints, 5 vendors, 99K cards. https://api.mythic-index.com"
 
-if __name__ == "__main__":
+def main():
     import sys
     if not API_KEY or API_KEY == "PUBLIC_READ_KEY_PLACEHOLDER":
         print("Set MYTHIC_INDEX_API_KEY or replace placeholder in mcp_server.py", file=sys.stderr); sys.exit(1)
@@ -378,3 +378,7 @@ if __name__ == "__main__":
         mcp.run(transport="sse", port=port)
     else:
         mcp.run(transport="stdio")
+
+
+if __name__ == "__main__":
+    main()
