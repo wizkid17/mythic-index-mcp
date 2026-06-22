@@ -35,7 +35,7 @@ def _parse_decklist(text):
 
 # ═══ SEARCH & DISCOVERY ═══
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Search Cards", "readOnlyHint": True, "openWorldHint": True})
 def search_cards(query: str, limit: int = 10) -> str:
     """Search MTG cards by name with fuzzy matching. Handles typos and partial names.
     Args: query: Card name (min 2 chars). limit: Max results (1-50)."""
@@ -46,7 +46,7 @@ def search_cards(query: str, limit: int = 10) -> str:
     for c in cards: lines.append(f"- **{c['name']}** [{c['set_code'].upper()}] ({c['rarity']}) {c.get('mana_cost','')} — {c.get('type_line','')} [id:{c['card_id']}]")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Find Cards", "readOnlyHint": True, "openWorldHint": True})
 def find_cards(oracle_text:str="", type_line:str="", colors:str="", color_identity:str="", cmc_min:int=0, cmc_max:int=20, rarity:str="", keyword:str="", reserved_list:bool=False, price_min:float=0, price_max:float=0, format:str="", sort:str="price", limit:int=10) -> str:
     """Find MTG cards by ability text, type, color, CMC, price, format. For deck building queries like 'black creatures with deathtouch under $5'.
     Args: oracle_text: Rules text search. type_line: Card type filter. colors: Comma-separated W,U,B,R,G. color_identity: Exact identity for Commander. cmc_min/cmc_max: Mana value range. rarity: common/uncommon/rare/mythic. keyword: Ability keyword. reserved_list: Only RL cards. price_min/price_max: USD range. format: Legality filter. sort: price/name/recent. limit: 1-50."""
@@ -72,7 +72,7 @@ def find_cards(oracle_text:str="", type_line:str="", colors:str="", color_identi
         lines.append(f"{i}. **{c['name']}** [{c['set_code'].upper()}] ({c['rarity']}) {c.get('mana_cost','')} — {price}")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Browse Cards", "readOnlyHint": True, "openWorldHint": True})
 def browse_cards(sort:str="price", order:str="desc", rarity:str="", set_code:str="", limit:int=10) -> str:
     """Browse MTG cards by price, name, or newest. Args: sort: price/name/recent. order: desc/asc. rarity/set_code: filters. limit: 1-50."""
     p = {"sort": sort, "order": order, "limit": min(limit, 50)}
@@ -87,7 +87,7 @@ def browse_cards(sort:str="price", order:str="desc", rarity:str="", set_code:str
         lines.append(f"{i}. **{c['name']}** [{c['set_code'].upper()}] ({c['rarity']}) — {price} [id:{c['card_id']}]")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "List Sets", "readOnlyHint": True, "openWorldHint": True})
 def list_sets(search: str = "") -> str:
     """List MTG sets. Args: search: Optional name/code filter."""
     data = _get("/api/sets", {"search": search} if search else {})
@@ -101,7 +101,7 @@ def list_sets(search: str = "") -> str:
 
 # ═══ PRICING ═══
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Get Card Price", "readOnlyHint": True, "openWorldHint": True})
 def get_card_price(card_id: int) -> str:
     """Current prices across all vendors. Args: card_id: From search results."""
     data = _get(f"/api/cards/{card_id}")
@@ -118,7 +118,7 @@ def get_card_price(card_id: int) -> str:
         if best: lines.append(f"  → Best: **${best:.2f}**")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Get Price History", "readOnlyHint": True, "openWorldHint": True})
 def get_price_history(card_id:int, days:int=30, finish:str="nonfoil") -> str:
     """Price trends over time. Args: card_id: Card ID. days: 7/30/90/365. finish: nonfoil/foil."""
     data = _get(f"/api/cards/{card_id}/prices", {"days": days, "finish": finish, "condition": "retail"})
@@ -136,7 +136,7 @@ def get_price_history(card_id:int, days:int=30, finish:str="nonfoil") -> str:
 
 # ═══ SETS & SEALED ═══
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Get Set Stats", "readOnlyHint": True, "openWorldHint": True})
 def get_set_stats(set_code: str) -> str:
     """Set statistics: cards, rarity, prices, top cards. Args: set_code: e.g. 'mh3'."""
     d = _get(f"/api/sets/{set_code}/stats")
@@ -150,7 +150,7 @@ def get_set_stats(set_code: str) -> str:
         for i, c in enumerate(top, 1): lines.append(f"  {i}. {c['name']} — ${c['best_price']:.2f}")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Search Sealed Products", "readOnlyHint": True, "openWorldHint": True})
 def search_sealed(set_code:str="", category:str="") -> str:
     """Find sealed products. Args: set_code: Filter by set. category: booster_box/booster_pack/bundle."""
     if set_code:
@@ -168,7 +168,7 @@ def search_sealed(set_code:str="", category:str="") -> str:
     for s in data.get("sets", [])[:15]: lines.append(f"**{s['set_name']}** — {len(s['products'])} products")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Get Sealed EV", "readOnlyHint": True, "openWorldHint": True})
 def get_sealed_ev(product_id: int) -> str:
     """EV breakdown for sealed product. Args: product_id: From search_sealed."""
     d = _get(f"/api/sealed/{product_id}/ev")
@@ -187,7 +187,7 @@ def get_sealed_ev(product_id: int) -> str:
 
 # ═══ INVESTMENT ═══
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Top Movers", "readOnlyHint": True, "openWorldHint": True})
 def top_movers(days:int=7, direction:str="up", limit:int=10, min_price:float=1.0) -> str:
     """Biggest price gains/drops. Args: days: 1-90. direction: up/down. min_price: Filter noise."""
     data = _get("/api/cards/movers", {"days": days, "direction": direction, "limit": min(limit,50), "min_price": min_price})
@@ -197,7 +197,7 @@ def top_movers(days:int=7, direction:str="up", limit:int=10, min_price:float=1.0
     for i, m in enumerate(movers, 1): lines.append(f"{i}. **{m['name']}** [{m['set_code'].upper()}] ${m['previous_price']:.2f}→${m['current_price']:.2f} ({'+' if m['change_pct']>0 else ''}{m['change_pct']:.1f}%)")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Find Arbitrage", "readOnlyHint": True, "openWorldHint": True})
 def find_arbitrage(min_spread:float=1.0, limit:int=10) -> str:
     """Cross-vendor profit opportunities. Args: min_spread: Min profit USD. limit: 1-50."""
     data = _get("/api/cards/arbitrage", {"min_spread": min_spread, "limit": min(limit,50)})
@@ -207,7 +207,7 @@ def find_arbitrage(min_spread:float=1.0, limit:int=10) -> str:
     for i, o in enumerate(opps, 1): lines.append(f"{i}. **{o['name']}** — Buy {o['buy_from']} ${o['buy_price']:.2f} → Sell {o['sell_to']} ${o['sell_price']:.2f} = **${o['spread']:.2f}** ({o['margin_pct']:.1f}%)")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Reserved List Tracker", "readOnlyHint": True, "openWorldHint": True})
 def reserved_list_tracker(max_price:float=0, sort:str="price", limit:int=20) -> str:
     """Reserved List cards — never reprinted. Args: max_price: Budget cap. sort: price/name. limit: 1-50."""
     p = {"reserved_list": "true", "sort": sort, "order": "desc" if sort=="price" else "asc", "limit": min(limit,50)}
@@ -221,7 +221,7 @@ def reserved_list_tracker(max_price:float=0, sort:str="price", limit:int=20) -> 
 
 # ═══ DECK ANALYSIS ═══
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Price Deck", "readOnlyHint": True, "openWorldHint": True})
 def price_deck(decklist:str, format:str="") -> str:
     """Price a decklist with curve, colors, legality, budget swaps. Args: decklist: '4 Lightning Bolt' per line. format: standard/modern/commander."""
     cards = _parse_decklist(decklist)
@@ -256,7 +256,7 @@ def price_deck(decklist:str, format:str="") -> str:
         for a in alts: lines.append(f"  {a['original']} → **{a['alternative']}** (saves ${a['savings_per_copy']:.2f})")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Suggest Budget Alternatives", "readOnlyHint": True, "openWorldHint": True})
 def suggest_budget_alternatives(card_name:str, max_price:float=0, format:str="") -> str:
     """Cheaper alternatives with similar type/CMC. Args: card_name: Card to replace. max_price: Cap. format: Legality filter."""
     s = _get("/api/cards/search", {"q": card_name, "limit": 1})
@@ -278,7 +278,7 @@ def suggest_budget_alternatives(card_name:str, max_price:float=0, format:str="")
     for i, c in enumerate(alts, 1): lines.append(f"{i}. **{c['name']}** {c.get('mana_cost','')} — ${'%.2f'%c['best_price'] if c.get('best_price') else '—'} (saves ${best-(c.get('best_price') or 0):.2f})")
     return "\n".join(lines) if alts else lines[0] + "\nNo alternatives found."
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Analyze Mana Curve", "readOnlyHint": True, "openWorldHint": True})
 def analyze_mana_curve(decklist: str) -> str:
     """Analyze mana curve, lands, color sources. Args: decklist: Same format as price_deck."""
     cards = _parse_decklist(decklist)
@@ -307,7 +307,7 @@ def analyze_mana_curve(decklist: str) -> str:
 
 # ═══ STRATEGY ═══
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Check Legality", "readOnlyHint": True, "openWorldHint": True})
 def check_legality(card_id: int) -> str:
     """Format legality check. Args: card_id: From search results."""
     d = _get(f"/api/cards/{card_id}/legality")
@@ -321,7 +321,7 @@ def check_legality(card_id: int) -> str:
     if banned: lines.append(f"❌ Banned: {', '.join(banned)}")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Evaluate Card", "readOnlyHint": True, "openWorldHint": True})
 def evaluate_card(card_id: int) -> str:
     """Strategic analysis: roles, keywords, archetypes. Args: card_id: From search."""
     d = _get(f"/api/cards/{card_id}/strategy")
@@ -333,7 +333,7 @@ def evaluate_card(card_id: int) -> str:
     if d.get('legal_formats'): lines.append(f"Legal: {', '.join(d['legal_formats'])}")
     return "\n".join(lines)
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Find Cards by Role", "readOnlyHint": True, "openWorldHint": True})
 def find_cards_by_role(role:str, colors:str="", format:str="", max_price:float=0, limit:int=10) -> str:
     """Find cards by role: removal, card_draw, ramp, counter, protection, evasion, token_generation, lifegain, discard, tutor, graveyard, board_wipe, burn.
     Args: role: Strategic role. colors: W,U,B,R,G. format: modern/commander. max_price: Budget. limit: 1-30."""
@@ -353,7 +353,7 @@ def find_cards_by_role(role:str, colors:str="", format:str="", max_price:float=0
 
 # ═══ SYSTEM ═══
 
-@mcp.tool()
+@mcp.tool(annotations={"title": "Get API Status", "readOnlyHint": True, "openWorldHint": True})
 def get_api_status() -> str:
     """Platform health and sync status."""
     d = _get("/api/status")

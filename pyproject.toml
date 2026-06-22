@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mythic-index-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "MCP server for Magic: The Gathering card prices, deck analysis, and investment intelligence — 19 tools over the Mythic Index API."
 readme = "README.md"
 requires-python = ">=3.10"
