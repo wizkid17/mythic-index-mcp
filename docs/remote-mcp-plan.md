@@ -135,6 +135,24 @@ FastMCP's `RemoteAuthProvider` supports all DCR-capable OIDC providers.
 
 ---
 
+## 8b. Confirmed technical approach (after API verification)
+
+- **No package migration.** The `mcp` SDK's FastMCP (already in use) natively supports
+  resource-server auth: `FastMCP(token_verifier=..., auth=AuthSettings(issuer_url=...,
+  resource_server_url=..., required_scopes=[...]))`. Published server, `.mcpb`, and remote
+  server stay one codebase. Auth activates **only** when `STYTCH_DOMAIN` is set — stdio/Desktop
+  stay unauthenticated.
+- **IdP = Stytch Connected Apps.** Validate bearer JWTs against Stytch JWKS:
+  `jwks_uri = {STYTCH_DOMAIN}/.well-known/jwks.json`, `issuer = STYTCH_DOMAIN`,
+  `audience = STYTCH_PROJECT_ID`, alg `RS256`. New dep for this path: `pyjwt[crypto]`.
+- Per-user rate limiting keys on the JWT `sub`.
+
+### Stytch setup (your action — the long pole)
+1. Create a Stytch project (Consumer/B2C is simplest for a public MCP).
+2. Connected Apps → enable → turn on **"Allow dynamic client registration"**.
+3. Allowed scopes: `openid email profile`; add a login method (email magic link / Google).
+4. Send back: **Stytch domain** (issuer URL) + **Project ID** (JWT audience).
+
 ## 9. Open decisions for you
 1. **Auth model:** A (public, fast) or B (OAuth) first?
 2. **Routing:** `mcp.mythic-index.com` (new cert SAN) vs `api.mythic-index.com/mcp` (no cert change)?
