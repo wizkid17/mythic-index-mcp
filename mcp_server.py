@@ -15,6 +15,12 @@ API_KEY = os.environ.get("MYTHIC_INDEX_API_KEY", "mi_ze5qEbb5NRrJqbFfe3pojSp-0kc
 
 mcp = FastMCP("Mythic Index", instructions="MTG card prices, deck analysis, and investment intelligence. 19 tools, 99K cards, 5 vendors.")
 
+@mcp.custom_route("/health", methods=["GET"])
+async def _health(_request):
+    """Liveness probe for load balancers (used in remote/HTTP mode)."""
+    from starlette.responses import PlainTextResponse
+    return PlainTextResponse("ok")
+
 def _client(): return httpx.Client(base_url=API_URL, headers={"X-API-Key": API_KEY}, timeout=30.0)
 def _get(path, params=None):
     with _client() as c: r = c.get(path, params=params); r.raise_for_status(); return r.json()
@@ -371,11 +377,18 @@ def main():
     import sys
     if not API_KEY or API_KEY == "PUBLIC_READ_KEY_PLACEHOLDER":
         print("Set MYTHIC_INDEX_API_KEY or replace placeholder in mcp_server.py", file=sys.stderr); sys.exit(1)
-    if "--sse" in sys.argv:
-        port = 8080
-        for i, a in enumerate(sys.argv):
-            if a == "--port" and i+1 < len(sys.argv): port = int(sys.argv[i+1])
-        mcp.run(transport="sse", port=port)
+    port = 8080
+    for i, a in enumerate(sys.argv):
+        if a == "--port" and i + 1 < len(sys.argv): port = int(sys.argv[i + 1])
+    # Remote transports read HOST/PORT from env (for containers/load balancers).
+    if "--http" in sys.argv:        # Streamable HTTP — modern remote transport
+        mcp.settings.host = os.environ.get("HOST", "0.0.0.0")
+        mcp.settings.port = int(os.environ.get("PORT", port))
+        mcp.run(transport="streamable-http")
+    elif "--sse" in sys.argv:       # legacy SSE transport
+        mcp.settings.host = os.environ.get("HOST", "0.0.0.0")
+        mcp.settings.port = int(os.environ.get("PORT", port))
+        mcp.run(transport="sse")
     else:
         mcp.run(transport="stdio")
 
