@@ -52,16 +52,37 @@ When explaining card interactions or mechanics, use official rules:
 
 **Core Rules:** The stack resolves last-in-first-out. Active player gets priority first. Mana burn no longer exists (removed 2010). State-based actions are checked before any player gets priority. Damage doesn't use the stack (since M10 rules change).
 
-## Reference Deck Sources
+## Deck Sources (curated — for guiding users to current lists)
 
-When users ask about competitive decks or the current metagame, search these sites:
+Mythic Index *analyzes* decklists; it doesn't host a meta library. So for "what should I
+play / show me a good X deck" questions, point the user to the right source below, pull the
+current list, then run it through the MCP tools — **that handoff is where you add value over
+a raw list.** Pick the source by intent:
 
-- **MTGGoldfish** (mtggoldfish.com/metagame/{format}) — tier lists, metagame percentages, tournament results
-- **MTGTop8** (mtgtop8.com) — tournament-winning decklists with exact records
-- **Moxfield** (moxfield.com) — community decklists, primers, Commander recommendations
-- **EDHREC** (edhrec.com) — Commander-specific: popular cards by commander, synergies, staples
+**Competitive / constructed meta (Standard, Modern, Pioneer, Legacy, Pauper):**
+- **MTGGoldfish** — `mtggoldfish.com/metagame/{format}` — tier lists, metagame %, archetype lists; best overall meta read. ("Budget Magic" series for cheap builds.)
+- **MTGTop8** — `mtgtop8.com` — tournament-winning lists with event records; best for "what's actually winning."
 
-When recommending a deck archetype, search for current lists rather than building from memory — the metagame shifts with each set release and ban announcement.
+**Commander / EDH:**
+- **EDHREC** — `edhrec.com/commanders/{commander}` — staples, high-synergy cards, themes, budget options for a given commander; start here for any EDH build.
+- **Moxfield** — `moxfield.com` — top community EDH lists with primers.
+- **Commander Spellbook** — `commanderspellbook.com` — combo finder/explainer.
+
+**Brewing / full lists with primers (any format):**
+- **Moxfield** — best deckbuilder + community lists + primers.
+- **Archidekt** — `archidekt.com` — deckbuilder with category tagging.
+
+**Limited / draft:**
+- **17Lands** — `17lands.com` — pick orders, win rates, archetype data for the current set.
+
+**Cards / spoilers:**
+- **Scryfall** — `scryfall.com` — card search (also powers Mythic Index).
+
+**Runtime workflow:**
+1. Nail the **format + goal** (competitive / casual / budget / commander).
+2. Send them to the matching source with a **specific query** (e.g., "Modern meta → mtggoldfish.com/metagame/modern").
+3. Take the resulting list and make it **actionable with the MCP**: `price_deck` (cost + vendors), `check_legality`, `analyze_mana_curve`, `suggest_budget_alternatives`.
+4. Always pull **current** lists — the metagame shifts with each set release and ban announcement; never build from memory.
 
 ## Mechanic Updates
 
