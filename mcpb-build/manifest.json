@@ -1,0 +1,51 @@
+{
+  "manifest_version": "0.2",
+  "name": "mythic-index-mcp",
+  "display_name": "Mythic Index",
+  "version": "0.1.1",
+  "description": "MTG card prices, deck analysis, and investment intelligence — 19 tools.",
+  "long_description": "Magic: The Gathering card pricing, deck cost analysis, sealed-product EV, Reserved List tracking, cross-vendor arbitrage, and investment signals — powered by live data from 5 vendors across 99K+ cards via the Mythic Index API. 19 read-only tools.",
+  "author": {
+    "name": "Renzo Salazar",
+    "url": "https://github.com/wizkid17"
+  },
+  "homepage": "https://github.com/wizkid17/mythic-index-mcp",
+  "documentation": "https://github.com/wizkid17/mythic-index-mcp#readme",
+  "license": "MIT",
+  "keywords": ["mtg", "magic-the-gathering", "tcg", "card-prices", "deck-building", "mcp"],
+  "server": {
+    "type": "python",
+    "entry_point": "server/mcp_server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": ["run", "${__dirname}/server/mcp_server.py"]
+    }
+  },
+  "tools": [
+    { "name": "search_cards", "description": "Fuzzy card name search — handles typos and partial names" },
+    { "name": "find_cards", "description": "Find cards by ability text, type, color, CMC, price, format, Reserved List" },
+    { "name": "browse_cards", "description": "Browse cards by price, name, or newest sets" },
+    { "name": "list_sets", "description": "List and search all MTG sets" },
+    { "name": "get_card_price", "description": "Current prices across all vendors" },
+    { "name": "get_price_history", "description": "Price trends over 7/30/90/365 days" },
+    { "name": "get_set_stats", "description": "Set statistics: rarity, avg price, total value, top cards" },
+    { "name": "search_sealed", "description": "Find booster boxes, packs, bundles" },
+    { "name": "get_sealed_ev", "description": "Expected-value breakdown for a sealed product" },
+    { "name": "top_movers", "description": "Biggest price gains and drops over a period" },
+    { "name": "find_arbitrage", "description": "Cross-vendor profit opportunities" },
+    { "name": "reserved_list_tracker", "description": "Browse Reserved List cards" },
+    { "name": "price_deck", "description": "Price a decklist: cost, vendors, mana curve, legality, swaps" },
+    { "name": "suggest_budget_alternatives", "description": "Cheaper cards with similar type and CMC" },
+    { "name": "analyze_mana_curve", "description": "Mana curve, land count, color source requirements" },
+    { "name": "check_legality", "description": "Format legality for a card" },
+    { "name": "evaluate_card", "description": "Strategic roles, keywords, archetype fit" },
+    { "name": "find_cards_by_role", "description": "Find cards by role: removal, ramp, draw, burn, counter, and more" },
+    { "name": "get_api_status", "description": "Platform health and sync status" }
+  ],
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "python": ">=3.10"
+    }
+  }
+}
