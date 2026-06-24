@@ -357,6 +357,39 @@ def find_cards_by_role(role:str, colors:str="", format:str="", max_price:float=0
     for i, c in enumerate(cards, 1): lines.append(f"{i}. **{c['name']}** [{c['set_code'].upper()}] {c.get('mana_cost','')} — {'$'+str(round(c['best_price'],2)) if c.get('best_price') else '—'}")
     return "\n".join(lines)
 
+# ═══ RULES ═══
+
+@mcp.tool(annotations={"title": "Search Rules", "readOnlyHint": True, "openWorldHint": True})
+def search_rules(query: str, limit: int = 8) -> str:
+    """Search the official Magic Comprehensive Rules + glossary by keyword. Use for rules questions and card interactions (e.g. 'deathtouch trample', 'the legend rule', 'priority').
+    Args: query: What to look up (min 2 chars). limit: Max rule matches (1-25)."""
+    data = _get("/api/rules/search", {"q": query, "limit": min(limit, 25)})
+    rules, gloss = data.get("rules", []), data.get("glossary", [])
+    if not rules and not gloss: return f"No rules found for '{query}'"
+    lines = []
+    if gloss:
+        lines.append("**Glossary:**")
+        for g in gloss: lines.append(f"- **{g['term']}** — {g['definition']}")
+        lines.append("")
+    if rules:
+        lines.append("**Rules:**")
+        for r in rules: lines.append(f"- **{r['number']}** {r['text']}")
+    if data.get("effective_date"): lines.append(f"\n_(Comprehensive Rules effective {data['effective_date']})_")
+    return "\n".join(lines)
+
+@mcp.tool(annotations={"title": "Get Rule", "readOnlyHint": True, "openWorldHint": True})
+def get_rule(number: str) -> str:
+    """Get a specific Comprehensive Rule by number, with its sub-rules (e.g. '509.1' returns 509.1, 509.1a, 509.1b...).
+    Args: number: Rule number like '509.1' or '601.2a', or a section like '702'."""
+    data = _get(f"/api/rules/{number}")
+    rules = data.get("rules", [])
+    if not rules: return f"Rule {number} not found"
+    head = f"**Rule {number}**" + (f" — {rules[0].get('section')}" if rules[0].get("section") else "")
+    lines = [head, ""]
+    for r in rules: lines.append(f"**{r['number']}** {r['text']}")
+    if data.get("effective_date"): lines.append(f"\n_(Comprehensive Rules effective {data['effective_date']})_")
+    return "\n".join(lines)
+
 # ═══ SYSTEM ═══
 
 @mcp.tool(annotations={"title": "Get API Status", "readOnlyHint": True, "openWorldHint": True})
