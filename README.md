@@ -93,7 +93,7 @@ The server includes a public read-only key with rate limiting. For higher rate l
 }
 ```
 
-## Available Tools (19)
+## Available Tools (21)
 
 ### Search & Discovery
 | Tool | Description |
@@ -136,6 +136,12 @@ The server includes a public read-only key with rate limiting. For higher rate l
 | `check_legality` | Format legality: Standard, Modern, Pioneer, Commander, Legacy, Vintage, Pauper |
 | `evaluate_card` | Strategic roles, keyword abilities, archetype fit |
 | `find_cards_by_role` | Search by role: removal, ramp, card draw, burn, counter, tutor, and 7 more |
+
+### Rules
+| Tool | Description |
+|------|-------------|
+| `search_rules` | Full-text search the official Comprehensive Rules + glossary |
+| `get_rule` | Get a rule by number with its sub-rules (e.g. `509.1`) |
 
 ### System
 | Tool | Description |

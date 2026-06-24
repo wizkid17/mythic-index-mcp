@@ -18,7 +18,7 @@ Use this skill when the user asks about:
 ## MCP Connection
 This skill requires the Mythic Index MCP server. See setup instructions in README.md.
 
-### Available Tools (20)
+### Available Tools (21)
 **Search & Discovery:**
 - search_cards — fuzzy name search
 - find_cards — advanced filters (oracle text, color, type, CMC, price range, format)
@@ -48,6 +48,10 @@ This skill requires the Mythic Index MCP server. See setup instructions in READM
 - check_legality — format legality per card
 - evaluate_card — strategic role analysis
 - find_cards_by_role — search by strategic role (removal, ramp, burn, etc.)
+
+**Rules:**
+- search_rules — search the official Comprehensive Rules + glossary
+- get_rule — get a rule by number with its sub-rules
 
 **System:**
 - get_api_status — platform health check

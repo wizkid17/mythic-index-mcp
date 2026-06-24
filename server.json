@@ -3,7 +3,7 @@
   "name": "io.github.wizkid17/mythic-index-mcp",
   "title": "Mythic Index",
   "description": "MTG card prices, deck analysis, and investment intelligence — 19 tools over the Mythic Index API.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": {
     "url": "https://github.com/wizkid17/mythic-index-mcp",
     "source": "github"
@@ -12,7 +12,7 @@
     {
       "registryType": "pypi",
       "identifier": "mythic-index-mcp",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "runtimeHint": "uvx",
       "transport": {
         "type": "stdio"

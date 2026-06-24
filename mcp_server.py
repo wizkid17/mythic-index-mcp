@@ -2,7 +2,7 @@
 Mythic Index MCP Server — Marketplace Edition
 ===============================================
 MTG card search, pricing, deck analysis, and investment intelligence.
-19 tools + 1 resource. Connects to api.mythic-index.com.
+21 tools + 1 resource. Connects to api.mythic-index.com.
 
 Setup: pip install mcp httpx
 Usage: python3 mcp_server.py (stdio) or python3 mcp_server.py --sse --port 8080
@@ -13,7 +13,7 @@ from mcp.server.fastmcp import FastMCP
 API_URL = os.environ.get("MYTHIC_INDEX_API_URL", "https://api.mythic-index.com")
 API_KEY = os.environ.get("MYTHIC_INDEX_API_KEY", "mi_ze5qEbb5NRrJqbFfe3pojSp-0kcpJo5zvL9T8KTQs3IS2gYUMQdZtfGtKos7s7T3")
 
-mcp = FastMCP("Mythic Index", instructions="MTG card prices, deck analysis, and investment intelligence. 19 tools, 99K cards, 5 vendors.")
+mcp = FastMCP("Mythic Index", instructions="MTG card prices, deck analysis, rules lookup, and investment intelligence. 21 tools, 99K cards, 5 vendors.")
 
 @mcp.custom_route("/health", methods=["GET"])
 async def _health(_request):
